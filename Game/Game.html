@@ -1,0 +1,67 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset = "UTF-8">
+<title>уроки js</title>
+</head>
+
+<body style = "text-align: center">
+
+<h1>Найди коктейли!</h1>
+<img src = "picture.jpg" alt = "игра" width = "400px" height = "400px" id = "map">
+<p></p>
+<h3 style = "color: #f321ce"></h3>
+
+<script src = "https://code.jquery.com/jquery-2.1.0.js"></script>
+<script src = "уроки js.js">
+var getRandomNumber = function(size){
+	return Math.floor(Math.random() * size); //поскольку картинка будет 400 на 400 пикселей, то нам нужно значение от 0 до 399 по x и y
+};
+
+//Нужно: счётчик кликов, вычисление, насколько клик далеко от цели (target), показать словами насколько далеко
+
+var getDistance = function(event, target){
+	var diffX = event.offsetX - target.x; //offsetX или offsetY - координата клика по X и Y соответственно
+	var diffY = event.offsetY - target.y;
+	return Math.sqrt((diffX*diffX) + (diffY*diffY));
+};
+
+var getDistanceHint = function(distance){
+	if (distance < 10){
+		return "Обожжёшься!";
+	}else if (distance < 20){
+		return "Очень горячо";
+	}else if (distance < 40){
+		return "Горячо";
+	}else if (distance < 80){
+		return "Тепло";
+	}else if (distance < 160){
+		return "Холодно";
+	}else if (distance < 320){
+		return "Очень холодно";
+	}else{
+		return "Замёрзнешь!";
+	}
+};
+
+var width = 400;
+var height = 400;
+var target = {x: getRandomNumber(width), y: getRandomNumber(height)};
+var clicks = 0;
+
+$("#map").click(function(event){
+	clicks++;
+	
+	var distance = getDistance(event, target);
+	var distanceHit = getDistanceHint(distance);
+	$("p").text(distanceHit);
+	
+	if (distance < 10){
+	$("h3").text("Коктейль найден! Сделано " + clicks + " кликов.");
+	}
+});
+</script>
+
+
+</body>
+</html>
